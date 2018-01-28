@@ -3,10 +3,11 @@ require 'twitter'
 class TwitterApi
   def initialize
     @client = Twitter::REST::Client.new do |config|
-    config.consumer_key        = "HcsgBfYNZSnlNfgsbUnNHAGsi"
-    config.consumer_secret     = "22HO1U79YNChhmNz8Fbz6wUgQp5AiDCdhwodwehwSOJOXhWiu7"
-    config.access_token        = "957180756543107072-stTjIPqiz0DCmciAdOYuzyY1u01i30p"
-    config.access_token_secret = "pesRuhPcehTfUieyW88TECwXyeus7pkZbpZ2s7lC9utZi"
+      # Will set these as environment variables later, it is a dummy account so no problem in revealing the details
+      config.consumer_key        = "HcsgBfYNZSnlNfgsbUnNHAGsi"
+      config.consumer_secret     = "22HO1U79YNChhmNz8Fbz6wUgQp5AiDCdhwodwehwSOJOXhWiu7"
+      config.access_token        = "957180756543107072-stTjIPqiz0DCmciAdOYuzyY1u01i30p"
+      config.access_token_secret = "pesRuhPcehTfUieyW88TECwXyeus7pkZbpZ2s7lC9utZi"
     end
   end
 
@@ -45,8 +46,6 @@ class TwitterApi
   def fetchTweetsWithParams(params)
     options = {:count => 100, :result_type => "popular"}
     result = @client.search(params, options)
-    puts result.take(100);
-    puts result.attrs[:statuses].length
     result.attrs[:statuses]
   end
 
