@@ -14,7 +14,8 @@ class HomeController < ApplicationController
     hashtagMap.each do |hashtag, count|
       topTenArr.push([hashtag, count])
     end
-    topTenArr.sort_by { |val| val[1] }.reverse!
+    topTenArr = topTenArr.sort_by { |val| val[1] }.reverse!
+    puts topTenArr
     response = {'tweets': textArray, 'hashtags': topTenArr[0..9]}
     render status: 200, json: response
   end
