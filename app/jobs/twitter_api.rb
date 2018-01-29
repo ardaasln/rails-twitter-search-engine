@@ -44,8 +44,9 @@ class TwitterApi
   end
 
   def fetchTweetsWithParams(params)
-    options = {:count => 100, :result_type => "popular"}
+    options = {:result_type => "mixed", :count => 100}
     result = @client.search(params, options)
+    puts result.attrs[:statuses].length
     result.attrs[:statuses]
   end
 
