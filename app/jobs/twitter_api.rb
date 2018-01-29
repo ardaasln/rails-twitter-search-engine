@@ -4,10 +4,10 @@ class TwitterApi
   def initialize
     @client = Twitter::REST::Client.new do |config|
       # Will set these as environment variables later, it is a dummy account so no problem in revealing the details
-      config.consumer_key        = "HcsgBfYNZSnlNfgsbUnNHAGsi"
-      config.consumer_secret     = "22HO1U79YNChhmNz8Fbz6wUgQp5AiDCdhwodwehwSOJOXhWiu7"
-      config.access_token        = "957180756543107072-stTjIPqiz0DCmciAdOYuzyY1u01i30p"
-      config.access_token_secret = "pesRuhPcehTfUieyW88TECwXyeus7pkZbpZ2s7lC9utZi"
+      config.consumer_key        = 'HcsgBfYNZSnlNfgsbUnNHAGsi'
+      config.consumer_secret     = '22HO1U79YNChhmNz8Fbz6wUgQp5AiDCdhwodwehwSOJOXhWiu7'
+      config.access_token        = '957180756543107072-stTjIPqiz0DCmciAdOYuzyY1u01i30p'
+      config.access_token_secret = 'pesRuhPcehTfUieyW88TECwXyeus7pkZbpZ2s7lC9utZi'
     end
   end
 
@@ -17,36 +17,38 @@ class TwitterApi
     return @@instance
   end
 
-  def populateHashtagMap(tweets)
-    completeHashtagMap = {}
+  def populate_hashtag_map(tweets)
+    complete_hashtag_map = {}
     tweets.each do |tweet|
-      unless tweet[:entities].nil?
-        unless tweet[:entities][:hashtags].empty?
-          tweet[:entities][:hashtags].each do |hashtag|
-            if completeHashtagMap.key?(hashtag[:text])
-              completeHashtagMap[hashtag[:text]] = completeHashtagMap[hashtag[:text]] + 1
+      entities = tweet[:entities]
+      unless entities.nil?
+        hashtags = entities[:hashtags]
+        unless hashtags.empty?
+          hashtags.each do |hashtag|
+            hashtag_text = hashtag[:text]
+            complete_hashtag_map[hashtag_text] = if complete_hashtag_map.key?(hashtag_text)
+              complete_hashtag_map[hashtag_text] + 1
             else
-              completeHashtagMap[hashtag[:text]] = 1
+              1
             end
           end
         end
       end
     end
-    completeHashtagMap
+    complete_hashtag_map
   end
 
-  def fetchTextsOfTweets(tweets)
-    textArray = []
+  def fetch_texts_of_tweets(tweets)
+    text_array = []
     tweets.each do |tweet|
-      textArray.push(tweet[:text])
+      text_array.push(tweet[:text])
     end
-    textArray
+    text_array
   end
 
-  def fetchTweetsWithParams(params)
-    options = {:result_type => "mixed", :count => 100}
+  def fetch_tweets_with_params(params)
+    options = {result_type: 'mixed', count: 100}
     result = @client.search(params, options)
-    puts result.attrs[:statuses].length
     result.attrs[:statuses]
   end
 
